@@ -100,7 +100,7 @@ public class BatchJobInstancesController extends AbstractBatchJobsController {
 			List<JobInstanceInfo> result = new ArrayList<JobInstanceInfo>();
 			long total = jobService.countJobInstances(jobName);
 
-			Collection<JobInstance> jobInstances = jobService.listJobInstances(jobName, pageable.getOffset(), pageable.getPageSize());
+			Collection<JobInstance> jobInstances = jobService.listJobInstances(jobName, (int)pageable.getOffset(), pageable.getPageSize());
 			for (JobInstance jobInstance : jobInstances) {
 				List<JobExecution> jobExecutions = (List<JobExecution>) jobService.getJobExecutionsForJobInstance(
 						jobName, jobInstance.getId());

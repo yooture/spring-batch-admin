@@ -14,6 +14,11 @@ visualization of Batch meta data, and also launching and stopping jobs inside th
 	<name>Manager</name>
 	<dependencies>
 		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>

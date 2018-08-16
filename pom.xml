@@ -7,20 +7,6 @@
 	<description>A set of services (Java, JSON) and a UI (webapp) for managing and launching Spring Batch jobs.</description>
 	<version>2.0.0.BUILD-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<scm>
-		<url>http://github.com/spring-projects/spring-batch-admin</url>
-		<connection>scm:git:git://github.com/spring-projects/spring-batch-admin.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/spring-projects/spring-batch-admin.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
-	<issueManagement>
-		<system>JIRA</system>
-		<url>https://jira.spring.io/browse/BATCHADM/</url>
-	</issueManagement>
-	<ciManagement>
-		<system>Bamboo</system>
-		<url>https://build.spring.io/browse/BATCH</url>
-	</ciManagement>
 	<licenses>
 		<license>
 			<name>Apache 2.0</name>
@@ -440,20 +426,4 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<distributionManagement>
-		<site>
-			<id>static.springframework.org</id>
-			<url>scp://static.springframework.org/var/www/domains/springframework.org/static/htdocs/spring-batch-admin/trunk</url>
-		</site>
-		<repository>
-			<id>spring-release</id>
-			<name>Spring Release Repository</name>
-			<url>s3://maven.springframework.org/release</url>
-		</repository>
-		<snapshotRepository>
-			<id>spring-snapshot</id>
-			<name>Spring Snapshot Repository</name>
-			<url>https://repo.spring.io/libs-snapshot-local</url>
-		</snapshotRepository>
-	</distributionManagement>
 </project>

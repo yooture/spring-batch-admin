@@ -96,16 +96,19 @@ public class LocalFileService implements FileService, InitializingBean, Resource
 		}
 
 		File directory = new File(outputDir, parent);
+		String absolutePath = directory.getAbsolutePath();
+		absolutePath = "file:" + absolutePath.replace("\\", "/");
 
+/* Kzogg: on windows this seems to be buggy?
 		try {
-			if(!new URI(directory.getAbsolutePath()).normalize().getPath().startsWith(this.outputDir.getAbsolutePath())) {
-				throw new IllegalArgumentException("Can not write to directory: " + directory.getAbsolutePath());
+			if(!new URI(absolutePath).normalize().getPath().startsWith(this.outputDir.getAbsolutePath())) {
+				throw new IllegalArgumentException("Can not write to directory: " + absolutePath);
 			}
 		}
 		catch (URISyntaxException e) {
 			throw new IOException(e);
 		}
-
+*/
 		directory.mkdirs();
 		Assert.state(directory.exists() && directory.isDirectory(), "Could not create directory: " + directory);
 

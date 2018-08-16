@@ -80,7 +80,7 @@ public class BatchJobExecutionsController extends AbstractBatchJobsController {
 
 		Collection<JobExecutionInfoResource> resources = new ArrayList<JobExecutionInfoResource>();
 
-		for (JobExecution jobExecution : jobService.listJobExecutions(pageable.getOffset(), pageable.getPageSize())) {
+		for (JobExecution jobExecution : jobService.listJobExecutions((int)pageable.getOffset(), pageable.getPageSize())) {
 			Job job = jobLocator.getJob(jobExecution.getJobInstance().getJobName());
 
 			final JobExecutionInfoResource jobExecutionInfoResource = getJobExecutionInfoResource(jobExecution,
@@ -107,7 +107,7 @@ public class BatchJobExecutionsController extends AbstractBatchJobsController {
 
 		Collection<JobExecutionInfoResource> result = new ArrayList<JobExecutionInfoResource>();
 		try {
-			for (JobExecution jobExecution : jobService.listJobExecutionsForJob(jobName, pageable.getOffset(), pageable.getPageSize())) {
+			for (JobExecution jobExecution : jobService.listJobExecutionsForJob(jobName, (int)pageable.getOffset(), pageable.getPageSize())) {
 				result.add(jobExecutionInfoResourceAssembler.toResource(new JobExecutionInfo(jobExecution, timeZone)));
 			}
 

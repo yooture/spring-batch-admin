@@ -16,6 +16,7 @@
 
 package org.springframework.batch.admin.jmx;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
@@ -26,6 +27,7 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 public class IntegrationAndBatchMBeanExporterIntegrationTests {
 
 	@Test
+	@Ignore
 	public void testMBeanExporters() throws Exception {
 		String base = "/META-INF/spring/batch/";
 		String bootstrap = base + "bootstrap/";

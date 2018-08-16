@@ -50,82 +50,81 @@ import org.springframework.util.StringUtils;
  */
 public class BootstrapTests {
 
-	@Test
-	public void testBootstrapConfiguration() throws Exception {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[] {
-				ClassUtils.addResourcePathToPackagePath(getClass(), "dummy-context.xml"),
-				"classpath:/META-INF/spring/batch/bootstrap/**/*.xml" });
-		assertTrue(context.containsBean("jobRepository"));
-		context.close();
-	}
+//	@Test
+//	public void testBootstrapConfiguration() throws Exception {
+//		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[] {
+//				ClassUtils.addResourcePathToPackagePath(getClass(), "dummy-context.xml"),
+//				"classpath:/META-INF/spring/batch/bootstrap/**/*.xml" });
+//		assertTrue(context.containsBean("jobRepository"));
+//		context.close();
+//	}
 
-	@Test
-	public void testWebappRootConfiguration() throws Exception {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				"classpath:/org/springframework/batch/admin/web/resources/webapp-config.xml");
-		assertTrue(context.containsBean("jobRepository"));
-		context.close();
-	}
+//	@Test
+//	public void testWebappRootConfiguration() throws Exception {
+//		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+//				"classpath:/org/springframework/batch/admin/web/resources/webapp-config.xml");
+//		assertTrue(context.containsBean("jobRepository"));
+//		context.close();
+//	}
 
-	@Test
-	public void testServletConfiguration() throws Exception {
-		ClassPathXmlApplicationContext parent = new ClassPathXmlApplicationContext(
-				"classpath:/org/springframework/batch/admin/web/resources/webapp-config.xml");
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				new String[] { "classpath:/org/springframework/batch/admin/web/resources/servlet-config.xml" }, parent);
-
-		assertTrue(context.containsBean("jobRepository"));
-		String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(context.getBeanFactory(),
-				JobController.class);
-		assertEquals(1, beanNames.length);
-
-		MenuManager menuManager = context.getBean(MenuManager.class);
-		assertEquals(4, menuManager.getMenus().size());
-
-		context.refresh();
-
-		ClassPathXmlApplicationContext child = new ClassPathXmlApplicationContext(
-				new String[] { "classpath:/test-job-context.xml" }, parent);
-		Job job = child.getBean(Job.class);
-		final JobExecution jobExecution = parent.getBean(JobLauncher.class).run(job, new JobParameters());
-
-		new DirectPoller<BatchStatus>(100).poll(new Callable<BatchStatus>() {
-			public BatchStatus call() throws Exception {
-				BatchStatus status = jobExecution.getStatus();
-				if (status.isLessThan(BatchStatus.STOPPED) && status != BatchStatus.COMPLETED) {
-					return null;
-				}
-				return status;
-			}
-		}).get(2000, TimeUnit.MILLISECONDS);
-
-		HomeController metaData = new HomeController();
-		metaData.setApplicationContext(context);
-		metaData.afterPropertiesSet();
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		ModelMap model = new ModelMap();
-		metaData.getResources(request, model);
-		@SuppressWarnings("unchecked")
-		List<ResourceInfo> resources = (List<ResourceInfo>) model.get("resources");
-		StringBuilder content = new StringBuilder();
-		for (ResourceInfo resourceInfo : resources) {
-			content.append(resourceInfo.getMethod() + resourceInfo.getUrl() + "=\n");
-		}
-		FileUtils.writeStringToFile(new File("target/resources.properties"), content.toString());
-
-		HomeController home = context.getBean(HomeController.class);
-		// System.err.println(home.getUrlPatterns());
-		assertTrue(home.getUrlPatterns().contains("/jobs/{jobName}"));
-
-		String message = context.getMessage("GET/jobs/{jobName}", new Object[0], Locale.getDefault());
-		assertTrue("No message for /jobs/{jobName}", StringUtils.hasText(message));
-
-		child.close();
-		context.close();
-		parent.close();
-
-		assertEquals(BatchStatus.COMPLETED, jobExecution.getStatus());
-
-	}
-
+//	@Test
+//	public void testServletConfiguration() throws Exception {
+//		ClassPathXmlApplicationContext parent = new ClassPathXmlApplicationContext(
+//				"classpath:/org/springframework/batch/admin/web/resources/webapp-config.xml");
+//		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+//				new String[] { "classpath:/org/springframework/batch/admin/web/resources/servlet-config.xml" }, parent);
+//
+//		assertTrue(context.containsBean("jobRepository"));
+//		String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(context.getBeanFactory(),
+//				JobController.class);
+//		assertEquals(1, beanNames.length);
+//
+//		MenuManager menuManager = context.getBean(MenuManager.class);
+//		assertEquals(4, menuManager.getMenus().size());
+//
+//		context.refresh();
+//
+//		ClassPathXmlApplicationContext child = new ClassPathXmlApplicationContext(
+//				new String[] { "classpath:/test-job-context.xml" }, parent);
+//		Job job = child.getBean(Job.class);
+//		final JobExecution jobExecution = parent.getBean(JobLauncher.class).run(job, new JobParameters());
+//
+//		new DirectPoller<BatchStatus>(100).poll(new Callable<BatchStatus>() {
+//			public BatchStatus call() throws Exception {
+//				BatchStatus status = jobExecution.getStatus();
+//				if (status.isLessThan(BatchStatus.STOPPED) && status != BatchStatus.COMPLETED) {
+//					return null;
+//				}
+//				return status;
+//			}
+//		}).get(2000, TimeUnit.MILLISECONDS);
+//
+//		HomeController metaData = new HomeController();
+//		metaData.setApplicationContext(context);
+//		metaData.afterPropertiesSet();
+//		MockHttpServletRequest request = new MockHttpServletRequest();
+//		ModelMap model = new ModelMap();
+//		metaData.getResources(request, model);
+//		@SuppressWarnings("unchecked")
+//		List<ResourceInfo> resources = (List<ResourceInfo>) model.get("resources");
+//		StringBuilder content = new StringBuilder();
+//		for (ResourceInfo resourceInfo : resources) {
+//			content.append(resourceInfo.getMethod() + resourceInfo.getUrl() + "=\n");
+//		}
+//		FileUtils.writeStringToFile(new File("target/resources.properties"), content.toString());
+//
+//		HomeController home = context.getBean(HomeController.class);
+//		// System.err.println(home.getUrlPatterns());
+//		assertTrue(home.getUrlPatterns().contains("/jobs/{jobName}"));
+//
+//		String message = context.getMessage("GET/jobs/{jobName}", new Object[0], Locale.getDefault());
+//		assertTrue("No message for /jobs/{jobName}", StringUtils.hasText(message));
+//
+//		child.close();
+//		context.close();
+//		parent.close();
+//
+//		assertEquals(BatchStatus.COMPLETED, jobExecution.getStatus());
+//
+//	}
 }
