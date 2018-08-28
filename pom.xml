@@ -36,180 +36,21 @@
 		<module>spring-batch-admin-domain</module>
 		<module>spring-batch-admin-sample</module>
 	</modules>
-	<profiles>
-		<profile>
-			<id>verify</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>extract</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<tasks>
-										<unzip dest="target/it">
-											<fileset dir="target">
-												<include name="*.zip" />
-											</fileset>
-											<regexpmapper from="^[^/]*/(.*)$$" to="\1" handledirsep="true" />
-										</unzip>
-										<fail message="Failed integration test of zip distro: dist/* jar file count wrong.">
-											<condition>
-												<not>
-													<resourcecount count="5">
-														<fileset id="fs" dir="target/it/dist" includes="spring-batch-*.jar" />
-													</resourcecount>
-												</not>
-											</condition>
-										</fail>
-									</tasks>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<!-- After the file count, we build the sample -->
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-invoker-plugin</artifactId>
-						<configuration>
-							<projectsDirectory>target/it</projectsDirectory>
-							<localRepositoryPath>target/local-repo</localRepositoryPath>
-							<debug>true</debug>
-							<settingsFile>${basedir}/src/it/settings.xml</settingsFile>
-							<goals>
-								<goal>test</goal>
-							</goals>
-							<pomIncludes>
-								<pomInclude>sample/*/pom.xml</pomInclude>
-							</pomIncludes>
-						</configuration>
-						<executions>
-							<execution>
-								<id>integration-test</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>milestone</id>
-			<distributionManagement>
-				<repository>
-					<id>spring-milestone</id>
-					<name>Spring Milestone Repository</name>
-					<url>s3://maven.springframework.org/milestone</url>
-				</repository>
-			</distributionManagement>
-		</profile>
-		<profile>
-			<id>central</id>
-			<distributionManagement>
-				<repository>
-					<id>spring-sourceforge</id>
-					<name>Spring Sourceforge Repository</name>
-					<url>file:///${user.home}/dev/sourceforge</url>
-				</repository>
-			</distributionManagement>
-		</profile>
-		<profile>
-			<id>staging</id>
-			<properties>
-			  <dist.staging>/${java.io.tmpdir}/spring-batch-admin/dist</dist.staging>
-			</properties>
-			<distributionManagement>
-				<site>
-					<id>staging</id>
-					<url>file:///${user.dir}/target/staging</url>
-				</site>
-				<repository>
-					<id>staging</id>
-					<url>file:///${user.dir}/target/staging</url>
-				</repository>
-				<snapshotRepository>
-					<id>staging</id>
-					<url>file:///${user.dir}/target/staging</url>
-				</snapshotRepository>
-			</distributionManagement>
-		</profile>
-		<profile>
-			<id>upload</id>
-			<build>
-			  <plugins>
-				<plugin>
-				  <artifactId>maven-javadoc-plugin</artifactId>
-				  <executions>
-					<execution>
-						<id>aggregate</id>
-						<goals>
-							<goal>aggregate</goal>
-						</goals>
-					  <phase>package</phase>
-					</execution>
-				  </executions>
-				</plugin>
-				<plugin><!--
-						   run `mvn package assembly:assembly` to trigger assembly creation.
-						   see http://www.sonatype.com/books/mvnref-book/reference/assemblies-set-dist-assemblies.html -->
-				  <artifactId>maven-assembly-plugin</artifactId>
-				  <inherited>false</inherited>
-				  <executions>
-					<execution>
-					  <id>distribution</id>
-					  <goals>
-						<goal>single</goal>
-					  </goals>
-					  <phase>package</phase>
-					</execution>
-				  </executions>
-				</plugin>
-				<plugin>
-				  <groupId>org.apache.maven.plugins</groupId>
-				  <artifactId>maven-antrun-plugin</artifactId>
-				  <version>1.4</version>
-				  <executions>
-					<execution>
-					  <id>upload-dist</id>
-					  <phase>deploy</phase>
-					  <goals>
-						<goal>run</goal>
-					  </goals>
-					  <configuration>
-					    <tasks>
-					      <ant antfile="${basedir}/src/ant/upload-dist.xml">
-						<target name="upload-dist" />
-					      </ant>
-					    </tasks>
-					  </configuration>
-					</execution>
-				  </executions>
-				  <dependencies>
-					<dependency>
-					  <groupId>org.springframework.build</groupId>
-					  <artifactId>org.springframework.build.aws.ant</artifactId>
-					  <version>3.0.5.RELEASE</version>
-					</dependency>
-					<dependency>
-					  <groupId>net.java.dev.jets3t</groupId>
-					  <artifactId>jets3t</artifactId>
-					  <version>0.7.2</version>
-					</dependency>
-				  </dependencies>
-				</plugin>
-			  </plugins>
-			</build>
-		</profile>
-	</profiles>
+	<scm>
+		<developerConnection>scm:git:ssh://git@github.com:yooture/spring-batch-admin.git</developerConnection>
+	</scm>	
+	<distributionManagement>
+		<repository>
+			<id>cloudbees-private-release-repository</id>
+			<name>Yooture's Private Release Repository on CloudBees</name>
+			<url>dav:https://repository-yooture.forge.cloudbees.com/release</url>
+		</repository>
+		<snapshotRepository>
+			<id>cloudbees-private-snapshot-repository</id>
+			<name>Yooture's Private Snapshot Repository on CloudBees</name>
+			<url>dav:https://repository-yooture.forge.cloudbees.com/snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>	
 	<build>
 		<extensions>
 			<extension>
@@ -217,6 +58,11 @@
 				<artifactId>org.springframework.build.aws.maven</artifactId>
 				<version>3.0.0.RELEASE</version>
 			</extension>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>			
 		</extensions>
 		<pluginManagement>
 			<plugins>
@@ -261,6 +107,24 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
+			<plugin>
+				<groupId>io.ultreia.java4all.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<version>1.0.0-rc-1</version>
+				<configuration>
+					<noDeploy>false</noDeploy>
+					<pushReleases>true</pushReleases>
+					<allowSnapshots>true</allowSnapshots>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.9.2</version>
+				<configuration>
+					<pushChanges>false</pushChanges>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.doxia</groupId>
 				<artifactId>doxia-maven-plugin</artifactId>
