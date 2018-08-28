@@ -56,7 +56,8 @@ import org.springframework.web.util.UrlPathHelper;
  * @author Dave Syer
  * 
  */
-@Controller
+// replaced by org.springframework.batch.admin.web.HomeController
+// @Controller
 public class HomeController implements ApplicationContextAware, InitializingBean {
 
 	private static Log logger = LogFactory.getLog(HomeController.class);

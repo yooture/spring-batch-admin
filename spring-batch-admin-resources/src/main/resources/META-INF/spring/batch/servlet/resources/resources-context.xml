@@ -91,10 +91,10 @@
 
 	<bean id="menuManager" class="org.springframework.batch.admin.web.resources.MenuManager" />
 
-	<bean class="org.springframework.batch.admin.web.util.HomeController">
-		<property name="defaultResources" ref="defaultResources" />
-		<property name="jsonResources" ref="jsonResources" />
-	</bean>
+<!-- 	<bean class="org.springframework.batch.admin.web.util.HomeController"> -->
+<!-- 		<property name="defaultResources" ref="defaultResources" /> -->
+<!-- 		<property name="jsonResources" ref="jsonResources" /> -->
+<!-- 	</bean> -->
 
 	<util:properties id="defaultResources" />
 	<util:properties id="jsonResources" />
