@@ -5,7 +5,7 @@
 	<artifactId>spring-batch-admin</artifactId>
 	<name>Spring Batch Admin</name>
 	<description>A set of services (Java, JSON) and a UI (webapp) for managing and launching Spring Batch jobs.</description>
-	<version>2.0.1.YOOTURE-SNAPSHOT</version>
+	<version>2.0.1.YOOTURE</version>
 	<packaging>pom</packaging>
 	<licenses>
 		<license>
@@ -38,7 +38,8 @@
 	</modules>
 	<scm>
 		<developerConnection>scm:git:ssh://git@github.com:yooture/spring-batch-admin.git</developerConnection>
-	</scm>	
+	  <tag>spring-batch-admin-2.0.1.YOOTURE</tag>
+  </scm>	
 	<distributionManagement>
 		<repository>
 			<id>cloudbees-private-release-repository</id>
