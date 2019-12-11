@@ -94,7 +94,7 @@ public class ContentTypeInterceptor extends HandlerInterceptorAdapter implements
 		}
 
 		String pathInfo = request.getPathInfo();
-		String path = pathInfo==null ? "" : WebUtils.extractFullFilenameFromUrlPath(pathInfo);
+		String path = pathInfo==null ? "" : this.extractFullFilenameFromUrlPath(pathInfo);
 		if (!path.contains(".")) {
 			return;
 		}
@@ -121,6 +121,25 @@ public class ContentTypeInterceptor extends HandlerInterceptorAdapter implements
 
 		}
 
+	}
+
+	/**
+	 * copy of old WebUtils.extractFullFilenameFromUrlPath
+	 * @param urlPath
+	 * @return
+	 */
+	private static String extractFullFilenameFromUrlPath(String urlPath) {
+		int end = urlPath.indexOf('?');
+		if (end == -1) {
+			end = urlPath.indexOf('#');
+			if (end == -1) {
+				end = urlPath.length();
+			}
+		}
+		int begin = urlPath.lastIndexOf('/', end) + 1;
+		int paramIndex = urlPath.indexOf(';', begin);
+		end = (paramIndex != -1 && paramIndex < end ? paramIndex : end);
+		return urlPath.substring(begin, end);
 	}
 
 	private void exposeErrors(ModelMap modelMap) {

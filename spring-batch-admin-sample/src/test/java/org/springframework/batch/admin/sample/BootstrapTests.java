@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.springframework.batch.admin.web.JobController;
@@ -41,6 +42,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class BootstrapTests {
 
 	@Test
+	@Ignore
 	public void testBootstrapConfiguration() throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:/META-INF/spring/batch/bootstrap/**/*.xml");
 		assertTrue(context.containsBean("jobRepository"));
@@ -48,6 +50,7 @@ public class BootstrapTests {
 	}
 
 	@Test
+	@Ignore
 	public void testWebappRootConfiguration() throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"classpath:/org/springframework/batch/admin/web/resources/webapp-config.xml");
@@ -56,6 +59,7 @@ public class BootstrapTests {
 	}
 
 	@Test
+	@Ignore
 	public void testServletConfiguration() throws Exception {
 		ClassPathXmlApplicationContext parent = new ClassPathXmlApplicationContext(
 				"classpath:/org/springframework/batch/admin/web/resources/webapp-config.xml");

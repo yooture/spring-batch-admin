@@ -105,7 +105,7 @@ public class LocalFileService implements FileService, InitializingBean, Resource
 		catch (URISyntaxException e) {
 			throw new IOException(e);
 		}
-
+		
 		directory.mkdirs();
 		Assert.state(directory.exists() && directory.isDirectory(), "Could not create directory: " + directory);
 

@@ -26,34 +26,44 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.junit.runner.RunWith;
 import org.springframework.batch.admin.service.JobService;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * @author Michael Minella
  */
+@WebAppConfiguration
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { EnableBatchAdminTests.BatchAdminConfiguration.class})
 public class EnableBatchAdminTests {
 
-	private AnnotationConfigApplicationContext context;
+	@Autowired
+	private ApplicationContext context;
 
-	@Before
+	/*@Before
 	public void setUp() {
 		this.context = new AnnotationConfigApplicationContext(BatchAdminConfiguration.class);
 	}
-
 	@After
 	public void tearDown() {
 		this.context.close();
 	}
 
+*/
 	@Test
 	public void testContext() {
 

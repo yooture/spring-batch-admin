@@ -66,7 +66,7 @@ public class BatchJobsController extends AbstractBatchJobsController {
 	public PagedResources<DetailedJobInfoResource> jobs(Pageable pageable,
 			PagedResourcesAssembler<DetailedJobInfo> assembler) {
 		int total = jobService.countJobs();
-		Collection<String> names = jobService.listJobs(pageable.getOffset(), pageable.getPageSize());
+		Collection<String> names = jobService.listJobs((int)pageable.getOffset(), pageable.getPageSize());
 		List<DetailedJobInfo> detailedJobs = new ArrayList<DetailedJobInfo>();
 		for (String name : names) {
 			detailedJobs.add(getJobInfo(name));

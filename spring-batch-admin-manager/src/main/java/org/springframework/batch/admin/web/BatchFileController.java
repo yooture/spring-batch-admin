@@ -62,7 +62,7 @@ public class BatchFileController extends AbstractBatchJobsController {
 	public PagedResources<FileInfoResource> list(Pageable pageable,
 			PagedResourcesAssembler<FileInfo> assembler) throws IOException {
 
-		List<FileInfo> files = fileService.getFiles(pageable.getOffset(), pageable.getPageSize());
+		List<FileInfo> files = fileService.getFiles((int)pageable.getOffset(), pageable.getPageSize());
 
 		return assembler.toResource(
 				new PageImpl<FileInfo>(files, pageable, fileService.countFiles()),
